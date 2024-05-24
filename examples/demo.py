@@ -29,6 +29,7 @@ def main(model_folder,
          gender='neutral',
          plot_joints=False,
          num_betas=10,
+         beta_values = None,     #Body shape parameters' values
          sample_shape=True,
          sample_expression=True,
          num_expression_coeffs=10,
@@ -43,11 +44,17 @@ def main(model_folder,
     print(model)
 
     betas, expression = None, None
+
+    if beta_values is not None:
+        betas = torch.tensor(beta_values, dtype=torch.float32).unsqueeze(0)       #Values for body shape parameters
+
     if sample_shape:
         betas = torch.randn([1, model.num_betas], dtype=torch.float32)
     if sample_expression:
         expression = torch.randn(
             [1, model.num_expression_coeffs], dtype=torch.float32)
+        
+    # print(betas)
 
     output = model(betas=betas, expression=expression,
                    return_verts=True)
@@ -132,6 +139,10 @@ if __name__ == '__main__':
     parser.add_argument('--num-betas', default=10, type=int,
                         dest='num_betas',
                         help='Number of shape coefficients.')
+    
+    parser.add_argument('--beta-values', default=None, nargs='+', type=float,
+                        help='Specific beta values to use for the model shape.')        # Body shape arguments
+
     parser.add_argument('--num-expression-coeffs', default=10, type=int,
                         dest='num_expression_coeffs',
                         help='Number of expression coefficients.')
@@ -169,6 +180,10 @@ if __name__ == '__main__':
     num_expression_coeffs = args.num_expression_coeffs
     sample_shape = args.sample_shape
     sample_expression = args.sample_expression
+
+    beta_values = args.beta_values
+    if beta_values is not None:
+        beta_values = np.array(beta_values).reshape(1, -1)          # Values for body shape parameters
 
     main(model_folder, model_type, ext=ext,
          gender=gender, plot_joints=plot_joints,
