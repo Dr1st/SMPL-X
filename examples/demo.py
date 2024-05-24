@@ -14,6 +14,49 @@
 #
 # Contact: ps-license@tuebingen.mpg.de
 
+
+# Parameters Meaning
+# Beta 0 (Height):
+# Range: -3 to 3
+# Effect: -3 for shorter, 3 for taller
+
+# Beta 1 (Body fat):
+# Range: -3 to 3
+# Effect: -3 for leaner, 3 for more body fat
+
+# Beta 2 (Arm length):
+# Range: -3 to 3
+# Effect: -3 for shorter arms, 3 for longer arms
+
+# Beta 3 (Leg length):
+# Range: -3 to 3
+# Effect: -3 for shorter legs, 3 for longer legs
+
+# Beta 4 (Torso length):
+# Range: -3 to 3
+# Effect: -3 for shorter torso, 3 for longer torso
+
+# Beta 5 (Shoulder width):
+# Range: -3 to 3
+# Effect: -3 for narrower shoulders, 3 for wider shoulders
+
+# Beta 6 (Hip width):
+# Range: -3 to 3
+# Effect: -3 for narrower hips, 3 for wider hips
+
+# Beta 7 (Chest depth):
+# Range: -3 to 3
+# Effect: -3 for shallower chest, 3 for deeper chest
+
+# Beta 8 (Waist size):
+# Range: -3 to 3
+# Effect: -3 for smaller waist, 3 for larger waist
+
+# Beta 9 (Head size):
+# Range: -3 to 3
+# Effect: -3 for smaller head, 3 for larger head
+
+
 import os.path as osp
 import argparse
 
