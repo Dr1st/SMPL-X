@@ -28,13 +28,15 @@ import pickle
 from tqdm import tqdm
 import numpy as np
 
+import glob
+
 
 def clean_fn(fn, output_folder='output'):
     with open(fn, 'rb') as body_file:
-        body_data = pickle.load(body_file)
+        body_data = pickle.load(body_file, encoding='latin1')   # Specify encoding
 
     output_dict = {}
-    for key, data in body_data.iteritems():
+    for key, data in body_data.items():     # Changed iteritems() to items() for Python 3
         if 'chumpy' in str(type(data)):
             output_dict[key] = np.array(data)
         else:
@@ -60,9 +62,15 @@ if __name__ == '__main__':
 
     input_models = args.input_models
     output_folder = args.output_folder
+
+    # Expand wildcards in the input_models list
+    expanded_input_models = []
+    for pattern in input_models:
+        expanded_input_models.extend(glob.glob(pattern))
+
     if not osp.exists(output_folder):
         print('Creating directory: {}'.format(output_folder))
         os.makedirs(output_folder)
 
-    for input_model in input_models:
+    for input_model in expanded_input_models:               # Use the expanded input models
         clean_fn(input_model, output_folder=output_folder)
