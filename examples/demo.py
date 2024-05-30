@@ -64,6 +64,7 @@ import numpy as np
 import torch
 
 import smplx
+import trimesh
 
 
 def main(model_folder,
@@ -77,7 +78,8 @@ def main(model_folder,
          sample_expression=True,
          num_expression_coeffs=10,
          plotting_module='pyrender',
-         use_face_contour=False):
+         use_face_contour=False,
+         save_path = 'output_model.obj'):
 
     model = smplx.create(model_folder, model_type=model_type,
                          gender=gender, use_face_contour=use_face_contour,
@@ -107,9 +109,16 @@ def main(model_folder,
     print('Vertices shape =', vertices.shape)
     print('Joints shape =', joints.shape)
 
+    # Save the model
+    # print(trimesh.__version__)
+    saved_model = trimesh.Trimesh(vertices, model.faces)
+    saved_model.export(save_path)
+    print(f"Model saved to {save_path}")
+
+
     if plotting_module == 'pyrender':
         import pyrender
-        import trimesh
+        # import trimesh
         vertex_colors = np.ones([vertices.shape[0], 4]) * [0.3, 0.3, 0.3, 0.8]
         tri_mesh = trimesh.Trimesh(vertices, model.faces,
                                    vertex_colors=vertex_colors)
@@ -209,6 +218,9 @@ if __name__ == '__main__':
     parser.add_argument('--use-face-contour', default=False,
                         type=lambda arg: arg.lower() in ['true', '1'],
                         help='Compute the contour of the face')
+    
+    parser.add_argument('--save-path', default='output_model.obj', type=str,  # Add this argument
+                        help='The path to save the generated model')
 
     args = parser.parse_args()
 
@@ -224,6 +236,8 @@ if __name__ == '__main__':
     sample_shape = args.sample_shape
     sample_expression = args.sample_expression
 
+    save_path = args.save_path              #Get the save path
+
     beta_values = args.beta_values
     if beta_values is not None:
         beta_values = np.array(beta_values).reshape(1, -1)          # Values for body shape parameters
@@ -235,4 +249,5 @@ if __name__ == '__main__':
          sample_shape=sample_shape,
          sample_expression=sample_expression,
          plotting_module=plotting_module,
-         use_face_contour=use_face_contour)
+         use_face_contour=use_face_contour,
+         save_path = save_path)
