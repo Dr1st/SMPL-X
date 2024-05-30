@@ -72,7 +72,7 @@ def main(model_folder,
          gender='neutral',
          plot_joints=False,
          num_betas=10,
-         beta_values = None,     #Body shape parameters' values
+         beta_values = None,     # Body shape parameters' values
          sample_shape=True,
          sample_expression=True,
          num_expression_coeffs=10,
@@ -89,7 +89,7 @@ def main(model_folder,
     betas, expression = None, None
 
     if beta_values is not None:
-        betas = torch.tensor(beta_values, dtype=torch.float32).unsqueeze(0)       #Values for body shape parameters
+        betas = torch.tensor(beta_values, dtype=torch.float32).unsqueeze(0)       # Values for body shape parameters
 
     if sample_shape:
         betas = torch.randn([1, model.num_betas], dtype=torch.float32)
