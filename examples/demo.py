@@ -116,33 +116,34 @@ def main(model_folder,
 
     # Save the model
     # print(trimesh.__version__)
-    if save_path is not None:
+    # If save path is not none, save the model
+    if save_path:
         saved_model = trimesh.Trimesh(vertices, model.faces)
         saved_model.export(save_path)
         print(f"Model saved to {save_path}")
 
 
-    # if plotting_module == 'pyrender':
-    #     import pyrender
-    #     # import trimesh
-    #     vertex_colors = np.ones([vertices.shape[0], 4]) * [0.3, 0.3, 0.3, 0.8]
-    #     tri_mesh = trimesh.Trimesh(vertices, model.faces,
-    #                                vertex_colors=vertex_colors)
+    if plotting_module == 'pyrender':
+        import pyrender
+        # import trimesh
+        vertex_colors = np.ones([vertices.shape[0], 4]) * [0.3, 0.3, 0.3, 0.8]
+        tri_mesh = trimesh.Trimesh(vertices, model.faces,
+                                   vertex_colors=vertex_colors)
 
-    #     mesh = pyrender.Mesh.from_trimesh(tri_mesh)
+        mesh = pyrender.Mesh.from_trimesh(tri_mesh)
 
-    #     scene = pyrender.Scene()
-    #     scene.add(mesh)
+        scene = pyrender.Scene()
+        scene.add(mesh)
 
-    #     if plot_joints:
-    #         sm = trimesh.creation.uv_sphere(radius=0.005)
-    #         sm.visual.vertex_colors = [0.9, 0.1, 0.1, 1.0]
-    #         tfs = np.tile(np.eye(4), (len(joints), 1, 1))
-    #         tfs[:, :3, 3] = joints
-    #         joints_pcl = pyrender.Mesh.from_trimesh(sm, poses=tfs)
-    #         scene.add(joints_pcl)
+        if plot_joints:
+            sm = trimesh.creation.uv_sphere(radius=0.005)
+            sm.visual.vertex_colors = [0.9, 0.1, 0.1, 1.0]
+            tfs = np.tile(np.eye(4), (len(joints), 1, 1))
+            tfs[:, :3, 3] = joints
+            joints_pcl = pyrender.Mesh.from_trimesh(sm, poses=tfs)
+            scene.add(joints_pcl)
 
-    #     pyrender.Viewer(scene, use_raymond_lighting=True)
+        pyrender.Viewer(scene, use_raymond_lighting=True)
     # elif plotting_module == 'matplotlib':
     #     from matplotlib import pyplot as plt
     #     from mpl_toolkits.mplot3d import Axes3D
@@ -180,15 +181,19 @@ def main(model_folder,
     #         geometry.append(joints_pcl)
 
     #     o3d.visualization.draw_geometries(geometry)
-    # else:
-    #     raise ValueError('Unknown plotting_module: {}'.format(plotting_module))
+    else:
+        raise ValueError('Unknown plotting_module: {}'.format(plotting_module))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='SMPL-X Demo')
 
-    parser.add_argument('--model-folder', required=True, type=str,
+    # parser.add_argument('--model-folder', required=True, type=str,
+    #                     help='The path to the model folder')
+    
+    parser.add_argument('--model-folder', default='D:\AvatarGen\SMPLGen\SMPL_Clean_Model', type=str,
                         help='The path to the model folder')
+
     parser.add_argument('--model-type', default='smplx', type=str,
                         choices=['smpl', 'smplh', 'smplx', 'mano', 'flame'],
                         help='The type of model to load')
@@ -210,19 +215,29 @@ if __name__ == '__main__':
                         help='The module to use for plotting the result')
     parser.add_argument('--ext', type=str, default='npz',
                         help='Which extension to use for loading')
-    parser.add_argument('--plot-joints', default=False,
-                        type=lambda arg: arg.lower() in ['true', '1'],
-                        help='The path to the model folder')
-    parser.add_argument('--sample-shape', default=True,
-                        dest='sample_shape',
-                        type=lambda arg: arg.lower() in ['true', '1'],
+    # parser.add_argument('--plot-joints', default=False,
+    #                     type=lambda arg: arg.lower() in ['true', '1'],
+    #                     help='The path to the model folder')
+    # parser.add_argument('--sample-shape', default=True,
+    #                     dest='sample_shape',
+    #                     type=lambda arg: arg.lower() in ['true', '1'],
+    #                     help='Sample a random shape')
+    # parser.add_argument('--sample-expression', default=True,
+    #                     dest='sample_expression',
+    #                     type=lambda arg: arg.lower() in ['true', '1'],
+    #                     help='Sample a random expression')
+    # parser.add_argument('--use-face-contour', default=False,
+    #                     type=lambda arg: arg.lower() in ['true', '1'],
+    #                     help='Compute the contour of the face')
+
+    # Change the arguement to receive check box from the web
+    parser.add_argument('--plot-joints', action='store_true',
+                        help='Whether to plot joints')
+    parser.add_argument('--sample-shape', action='store_true',
                         help='Sample a random shape')
-    parser.add_argument('--sample-expression', default=True,
-                        dest='sample_expression',
-                        type=lambda arg: arg.lower() in ['true', '1'],
+    parser.add_argument('--sample-expression', action='store_true',
                         help='Sample a random expression')
-    parser.add_argument('--use-face-contour', default=False,
-                        type=lambda arg: arg.lower() in ['true', '1'],
+    parser.add_argument('--use-face-contour', action='store_true',
                         help='Compute the contour of the face')
     
     parser.add_argument('--save-path', default=None, type=str,  # Add this argument
