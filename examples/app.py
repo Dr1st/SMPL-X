@@ -11,7 +11,21 @@ def index():
         model_type = request.form['model_type']
         gender = request.form['gender']
         num_betas = request.form['num_betas']
-        beta_values = request.form.getlist('beta_values')
+        # beta_values = request.form.getlist('beta_values')
+
+        beta_values = [
+            request.form['beta_0'],
+            request.form['beta_1'],
+            request.form['beta_2'],
+            request.form['beta_3'],
+            request.form['beta_4'],
+            request.form['beta_5'],
+            request.form['beta_6'],
+            request.form['beta_7'],
+            request.form['beta_8'],
+            request.form['beta_9']
+        ]
+
         num_expression_coeffs = request.form['num_expression_coeffs']
         plotting_module = request.form['plotting_module']
         ext = request.form['ext']

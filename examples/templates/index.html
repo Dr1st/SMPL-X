@@ -20,14 +20,52 @@
             <option value="flame">FLAME</option>
         </select><br>
 
+        <!-- <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" value="neutral"><br> -->
+
         <label for="gender">Gender:</label>
-        <input type="text" id="gender" name="gender" value="neutral"><br>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="neutral">Neutral</option>
+        </select><br>
+
 
         <label for="num_betas">Number of Betas:</label>
         <input type="number" id="num_betas" name="num_betas" value="10"><br>
 
-        <label for="beta_values">Beta Values:</label>
-        <input type="text" id="beta_values" name="beta_values"><br>
+        <!-- <label for="beta_values">Beta Values:</label>
+        <input type="text" id="beta_values" name="beta_values"><br> -->
+
+        <label for="beta_0">Beta 0 (Overall Body Size):</label>
+        <input type="number" id="beta_0" name="beta_0" min="-5" max="5"><br>
+
+        <label for="beta_1">Beta 1 (Side Compression and Stretching):</label>
+        <input type="number" id="beta_1" name="beta_1" min="0" max="5"><br>
+
+        <label for="beta_2">Beta 2 (General Body Fat):</label>
+        <input type="number" id="beta_2" name="beta_2" min="0" max="5"><br>
+
+        <label for="beta_3">Beta 3 (Belly Size and Body Reduction):</label>
+        <input type="number" id="beta_3" name="beta_3" max="0" min="-5"><br>
+
+        <label for="beta_4">Beta 4 (Chest, Hip, and Abdomen Size):</label>
+        <input type="number" id="beta_4" name="beta_4" min="-5" max="5"><br>
+
+        <label for="beta_5">Beta 5 (Big Belly with Overall Thinning):</label>
+        <input type="number" id="beta_5" name="beta_5" max="0" min="-5"><br>
+
+        <label for="beta_6">Beta 6 (Disproportionate Belly Size):</label>
+        <input type="number" id="beta_6" name="beta_6" min="0" max="5"><br>
+
+        <label for="beta_7">Beta 7 (Vertical Body Compression):</label>
+        <input type="number" id="beta_7" name="beta_7" min="0" max="5"><br>
+
+        <label for="beta_8">Beta 8 (Horizontal Body Fattening):</label>
+        <input type="number" id="beta_8" name="beta_8" min="0" max="5"><br>
+
+        <label for="beta_9">Beta 9 (Shoulder Width):</label>
+        <input type="number" id="beta_9" name="beta_9" min="0" max="5"><br>
 
         <label for="num_expression_coeffs">Number of Expression Coeffs:</label>
         <input type="number" id="num_expression_coeffs" name="num_expression_coeffs" value="10"><br>
